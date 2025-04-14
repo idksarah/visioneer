@@ -13,11 +13,13 @@ imask = mask > 0
 blue = np.zeros_like(img, np.uint8)
 blue[imask] = img[imask]
 
-gray = cv.cvtColor(blue, cv.COLOR_BGR2GRAY)
-# cv.imshow('gray', gray)
+blur = cv.GaussianBlur(blue, (13,13), 0)
 
-canny = cv.Canny(gray, 2, 255)
+canny = cv.Canny(blur, 10, 30)
 cv.imshow('canny', canny)
+
+dilate = cv.dilate(canny, (1, 1))
+cv.imshow('dilate', dilate)
 
 cv.waitKey(0)
 cv.destroyAllWindows()
