@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 
-img = cv.imread('pics/2.png')
+img = cv.imread('pics/1.png')
 
 hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
 
@@ -29,7 +29,10 @@ for cnt in contours:
     if area > 2000:
         rect = cv.minAreaRect(cnt)
         box = cv.boxPoints(rect)
-        box = np.int0(box)
+        box = np.intp(box)
+        M = np.mean(cnt.reshape(-1,2), axis=0)
+        cx, cy = int(M[0]), int(M[1])
+        cv.circle(img, (cx,cy), 5, (0,0,255), -1)
         cv.drawContours(img, [box], 0, (0,255,0), thickness=2)
         angle = rect[2]
         print('angle' + str(angle))
@@ -40,4 +43,5 @@ cv.imshow('top', img)
 # cv.imshow('dilate', dilate)
 
 cv.waitKey(0)
+
 cv.destroyAllWindows()
